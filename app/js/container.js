@@ -1,7 +1,10 @@
+var events = require('events');
+
 var container;
 var camera, scene, renderer;
 
-var sphere_object, sphere_material;
+var sphere_object
+    , sphere_material;
 
 var controlsEnabled = false;
 
@@ -42,58 +45,10 @@ instructions.appendChild(click);
  *
  * */
 
-
-
 instructions.addEventListener('click', function (event) {
     instructions.style.display = 'none';
     controlsEnabled = true;
 }, false);
-
-
-var onKeyDown = function (event) {
-    if (controlsEnabled == true) {
-        switch (event.keyCode) {
-            case 38: // up
-                move_sphere(-1, 0);
-                break;
-            case 37: // left
-                move_sphere(0, -1);
-                break;
-            case 37 && 38:
-                move_sphere(-1, -1);
-                break;
-            case 39 && 38:
-                move_sphere(-1, 1);
-                break;
-            case 40: // down
-                move_sphere(1, 0);
-                break;
-            case 37 && 40:
-                move_sphere(1, -1);
-                break;
-            case 39 && 40:
-                move_sphere(1, 1);
-                break;
-            case 39: // right
-                move_sphere(0, 1);
-                break;
-        }
-    }
-};
-var onKeyUp = function (event) {
-    if (controlsEnabled == true) {
-        switch (event.keyCode) {
-            case 38: // up
-                break;
-            case 37: // left
-                break;
-            case 40: // down
-                break;
-            case 39: // right
-                break;
-        }
-    }
-};
 
 init();
 animate();
@@ -111,24 +66,7 @@ function init() {
     var texture = new THREE.Texture(generateTexture());
     texture.needsUpdate = true;
 
-    sphere_material = new THREE.MeshPhongMaterial({
-        color: 0xffffff,
-        specular: 0xffffff,
-        shininess: 30,
-        shading: THREE.SmoothShading,
-        map: texture,
-        transparent: false
-    });
-
-    var sphere_geometry = new THREE.SphereGeometry(50, 32, 16);
-
-
-    var mesh = new THREE.Mesh(sphere_geometry, sphere_material);
-    sphere_object = mesh;
-    sphere_object.position.z = 250;
-    sphere_object.position.x = 0;
-    sphere_object.position.y = 110;
-    scene.add(mesh);
+    scene.add(sphere_object);
 
     scene.add(new THREE.AmbientLight(0x111111));
 
