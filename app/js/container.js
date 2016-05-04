@@ -1,70 +1,206 @@
-var events = require('events');
+var camera, scene, renderer, sphere_object;
 
-var container;
-var camera, scene, renderer;
-
-var sphere_object
-    , sphere_material;
-
-var controlsEnabled = false;
+// Variables for wifi scan and connection
+var exec = require('child_process').exec,
+    child;
+var mode;
+var Leap = require('leapjs');
+var options = {enableGestures: true};
+var leapControler = Leap.loop(options, controlFromLeap);
 
 var blocker = document.getElementById('blocker');
 var instructions = document.getElementById('instructions');
 
-var click = document.createElement("div");
-click.id = "click";
-click.innerHTML = "<span style='font-size: 40px'>Click to play</span><br/>";
+if (leapControler.connected() == true) {
+    mode = "leap";
+    console.log("there is a leap controler");
+}
+else {
+    mode = "arrows";
+    console.log("No leap motion detected");
+}
 
-var controls = document.createElement("div");
-var text;
-var mode = "arrows";
-if (mode == "leap"){
-    text = click.innerHTML + "Use leap motion to move the ball";
-}
-else if (mode == "arrows") {
-    text = click.innerHTML + "Use arrows to move around";
-}
-else{
-    text = click.innerHTML + "magical move";
-}
-click.innerHTML = text;
+var connectedToRobot = false;
 
-instructions.appendChild(click);
+// Wifi scan and connection if found
+child = exec('osx-wifi-cli', function (error, stdout, stderr) {
+    if (stdout !== null) {
+        var name = stdout.slice(21);
+        if (name.match(/Pi_AP/) == null) {
+            console.log("Not connected to a robot, searching one near...");
+            child = exec('osx-wifi-cli scan',
+                function (error, stdout, stderr) {
+                    if (stdout !== null) {
+                        var scan = stdout;
+                        if (scan.match(/Pi_AP/) == null) {
+                            console.log("No robot found");
+                            connectedToRobot = true;
+                        }
+                        else {
+                            console.log("Robot found, connecting...");
+                            child = exec('osx-wifi-cli Pi_AP raspberry',
+                                function (error, stdout, stderr) {
+                                    child = exec('osx-wifi-cli',
+                                        function (error, stdout, stderr) {
+                                            console.log("Connection succesful");
+                                            connectedToRobot = true;
+                                        });
+                                });
+                        }
+                    } else if (stderr !== null) {
+                        console.log('stderr: ' + stderr);
+                    } else if (error !== null) {
+                        console.log('exec error: ' + error);
+                    }
+                });
+        }
+        else {
+            console.log("Connected to a robot ! ");
+            connectedToRobot = true;
+        }
+    } else if (stderr !== null) {
+        console.log('stderr: ' + stderr);
+    } else if (error !== null) {
+        console.log('exec error: ' + error);
+    }
+});
+
+var controlsEnabled = false;
+
+var waiter = document.createElement("div");
+
+var connectionEnabled = function () {
+    if (connectedToRobot == false) {
+        console.log("not connected, supposed to have an animation");
+        waiter.className = "jawn";
+        instructions.appendChild(waiter);
+    }
+    else if (connectedToRobot == true) {
+        instructions.removeChild(waiter);
+        var click = document.createElement("div");
+        click.innerHTML = "<span style='font-size: 40px'>Click to play</span><br/>";
+        var text;
+        if (mode == "leap") {
+            text = click.innerHTML + "Use leap motion to move the ball";
+        }
+        else if (mode == "arrows") {
+            text = click.innerHTML + "Use arrows to move around";
+        }
+        else {
+            text = click.innerHTML + "magical move";
+        }
+        click.innerHTML = text;
+
+        instructions.appendChild(click);
+        click.addEventListener('click', function (event) {
+            instructions.style.display = 'none';
+            controlsEnabled = true;
+        }, false);
+    }
+};
+
+
+//connectedToRobot.addEvent('change', connectionEnabled, false);
 
 /*TODO :
  * - Correction de bugs :
  *   - OnKeyUp : effet d'inertie
- *   - Gerer plusieurs touches appuyées
+ *   - Gerer plusieurs touches appuyées (pas parfait - gerer l'appui long)
  * - Fonctionalités :
  *   - Piloter depuis le leapmotion
  * - Vues :
- *   - Ajouter l'intro et l'animation de chargement
+ *   - Ajouter l'intro et l'animation de chargement VOIR FRAMES (favoris chrome)
  *   - Ajouter et linker la vue des reglages
  * - Code :
- *   - Serieusement, c'est dégueulasse !!!!
+ *   - Serieusement, c'est dégueulasse !!!! IMMMMOOOOOOONDE !!!
+ *   - Decoupler le scan
  *
  * */
 
-instructions.addEventListener('click', function (event) {
-    instructions.style.display = 'none';
-    controlsEnabled = true;
-}, false);
+
+var controlFromLeap = function (frame) {
+    if (frame.hands.length > 0) {
+        console.log("detected hands");
+    }
+};
+
+
+var onKeyDown = function (event) {
+    if (controlsEnabled == true) {
+        switch (event.keyCode) {
+            case 38: // up
+                move_sphere(-1, 0);
+                break;
+            case 37: // left
+                move_sphere(0, -1);
+                break;
+            case 37 && 38: // up & left
+                move_sphere(-1, -1);
+                break;
+            case 39 && 38: // up & right
+                move_sphere(-1, 1);
+                break;
+            case 40: // down
+                move_sphere(1, 0);
+                break;
+            case 37 && 40: // down & left
+                move_sphere(1, -1);
+                break;
+            case 39 && 40: // down & right
+                move_sphere(1, 1);
+                break;
+            case 39: // right
+                move_sphere(0, 1);
+                break;
+        }
+    }
+};
+
+var onKeyUp = function (event) {
+    if (controlsEnabled == true) {
+        switch (event.keyCode) {
+            case 38: // up
+                break;
+            case 37: // left
+                break;
+            case 40: // down
+                break;
+            case 39: // right
+                break;
+        }
+    }
+};
 
 init();
 animate();
 
 function init() {
-    // THREE.TransformControls()
-    container = document.getElementById('container');
+    var container = document.getElementById('container');
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
     camera.position.set(0, 200, 800);
-    //controls = new THREE.PointerLockControls( camera );
     scene = new THREE.Scene();
 
     scene.add(new THREE.GridHelper(500, 50));
 
     var texture = new THREE.Texture(generateTexture());
     texture.needsUpdate = true;
+
+    var sphere_material = new THREE.MeshPhongMaterial({
+        color: 0xffffff,
+        specular: 0xffffff,
+        shininess: 30,
+        shading: THREE.SmoothShading,
+        map: texture,
+        transparent: false
+    });
+
+    var sphere_geometry = new THREE.SphereGeometry(50, 32, 16);
+
+    sphere_object = new THREE.Mesh(sphere_geometry, sphere_material);
+    sphere_object.position.z = 250;
+    sphere_object.position.x = 0;
+    sphere_object.position.y = 110;
+
 
     scene.add(sphere_object);
 
@@ -118,9 +254,7 @@ function generateTexture() {
 }
 
 function render() {
-
     camera.lookAt(scene.position);
-
     renderer.render(scene, camera);
 }
 
