@@ -5,6 +5,7 @@
 var Connector = require('./js/connector');
 
 var instructions = document.getElementById('instructions');
+var waiter;
 
 var mode = "arrows";
 
@@ -29,36 +30,35 @@ var endLoadAnimation = function (response) {
         }, false);
 
         instructions.appendChild(click);
-    } else {
+    } else if (response == false) {
         console.log('Branche ton Rpi maggle');
+    } else {
+        console.log('Erreur de connexion')
     }
 
 };
 
-var load = function () {
-    console.log("not connected, supposed to have an animation");
-    var waiter = createLoader("check");
-    instructions.appendChild(waiter);
-    Connector.connectRpi(x => {
-        endLoadAnimation(x)
-    });
+var createClass = function (elementType, className, i, innerHtml) {
+    console.log("la on cree la classe", className);
+    var newClass = document.createElement(elementType);
+    newClass.className = className + i;
+    newClass.innerHTML = innerHtml;
+    return newClass;
 };
-
-load();
 
 var createLoader = function (status) {
     var messages = {
-        "check": ["reading wifi network", ''],
-        "scan": ["looking for", "Pi_AP", "in the available wifi network list"],
-        "connection": ["connecting to", "Pi_AP"],
-        "success": ["connected"],
+        "check": ["#", "reading wifi network", ''],
+        "scan": ["#", "looking for", "Pi_AP", "in the available wifi network list"],
+        "connection": ["#", "connecting to", "Pi_AP"],
+        "success": ["#", "connected"],
         "title": ["· Sphr", "Motion ·"]
     };
     var global = createClass("div", '', '', '');
     var container = createClass("div", "container container", 1, '');
     var i;
     for (i = 1; i < 4; i++) {
-        container.appendChild(createClass("div", "circle circle1", i + 1, ''));
+        container.appendChild(createClass("div", "circle circle", i + 1, ''));
     }
     var container2 = createClass("div", "container container", 2, '');
     var message = createClass("p", "msg", '', '');
@@ -68,8 +68,8 @@ var createLoader = function (status) {
     container2.appendChild(message);
     var container3 = createClass("div", "container container", 3, '');
     var message2 = createClass("h1", "msg", '', '');
-    for (var k = 0; k< messages["title"].length; j++){
-        message2.appendChild(createClass("span", "color", j+2, messages["title"][j]));
+    for (var k = 0; k< messages["title"].length; k++){
+        message2.appendChild(createClass("span", "color", k+2, messages["title"][k]));
     }
     container3.appendChild(message2);
     global.appendChild(container);
@@ -79,26 +79,14 @@ var createLoader = function (status) {
 };
 
 
-var createClass = function (elementType, className, i, innerHtml) {
-    var newClass = document.createElement(elementType);
-    newClass.className = className + i;
-    newClass.innerHTML = innerHtml;
-    return newClass;
+
+var load = function () {
+    console.log("not connected, supposed to have an animation");
+    waiter = createLoader("connection");
+    instructions.appendChild(waiter);
+    Connector.connectRpi(x => {
+        endLoadAnimation(x)
+    });
 };
 
-//<div class="container container1">
-//    <div class="circle circle1"></div>
-//    <div class="circle circle2"></div>
-//    <div class="circle circle3"></div>
-//    </div>
-//    <div class="container container2">
-//    <p class="msg">
-//    <span class="color1">#</span><span class="color2">Connecting to </span><span class="color3">Pi_AP</span>
-//    </p>
-//    </div>
-//    <div class="container container3">
-//    <h1 class="msg">
-//    <span class="color2">· Sphr</span>
-//<span class="color3">Motion ·</span>
-//</h1>
-//</div>
+load();

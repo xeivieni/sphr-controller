@@ -90,7 +90,10 @@ var Connector = (function () {
                 searchRpi(ip => {
                     if (ip === true) {
                         console.log('found a robot');
-                        child = exec('osx-wifi-cli Pi_AP raspberry', function (error, stdout, stderr) {
+                        child = exec('osx-wifi-cli Pi_AP coucuo', function (error, stdout, stderr) {
+                            if (error !== null){
+                                callback(undefined);
+                            }
                             self.connectRpi(callback);
                         });
 
@@ -103,17 +106,10 @@ var Connector = (function () {
             } else {
                 console.log('already connected');
                 callback(true);
+                document.getElementsByClassName("")
             }
         });
 
-        //if (!isConnected()) {
-        //    if (searchRpi()) {
-        //        console.log('connecting');
-        //        console.log('is connected');
-        //        return true;
-        //
-        //    }
-        //}
     };
 
     return self;

@@ -15,11 +15,11 @@ body {
 }
 
 .container1 {
-    animation: fadeInUp 5s infinite;
+    animation: fadeInUp 20s infinite;
 }
 
 .container2 {
-    animation: fadeInDown 5s infinite;
+    animation: fadeInDown 20s infinite;
 }
 
 .container3 {
@@ -41,7 +41,7 @@ body {
     border-color: #A27035;
     height: 100px;
     width: 100px;
-    margin: -50px;
+    margin: 0px;
 }
 
 .circle2 {
@@ -189,5 +189,5 @@ body {
 
 h1.msg {
     font-size: 5em;
-    animation: fadeInDown2 5s infinite;
+    animation: fadeInDown2 20s infinite;
 }

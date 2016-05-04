@@ -6,9 +6,8 @@ app.on('ready', function(){
     width: 1200,
     height: 700,
     title: "Sph-R",
-    frame: false,
+    //frame: false,
     skipTaskbar: true,
-    transparent: true,
     useContentSize:true
     });
     mainWindow.loadURL('file://' + __dirname + '/index.html');
