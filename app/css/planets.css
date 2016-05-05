@@ -1,6 +1,6 @@
 html,
 body {
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 100%;
     margin: 0;
@@ -11,20 +11,26 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate( -50%, -50%);
 }
 
 .container1 {
-    animation: fadeInUp 20s infinite;
+    animation: fadeInDown 5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
 }
 
 .container2 {
-    animation: fadeInDown 20s infinite;
+    animation: fadeInUp 5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    text-align: left;
 }
 
 .container3 {
     width: 100%;
     text-align: center;
+    transform: translate( -50%, -70%);
+
 }
 
 .circle {
@@ -41,7 +47,7 @@ body {
     border-color: #A27035;
     height: 100px;
     width: 100px;
-    margin: 0px;
+    margin: -50px;
 }
 
 .circle2 {
@@ -106,19 +112,19 @@ body {
     }
     10% {
         opacity: 1;
-        margin-top: 0px;
+        margin-top: 20px;
     }
     45% {
         opacity: 1;
-        margin-top: 0px;
+        margin-top: 10px;
     }
     50% {
-        opacity: 0;
-        margin-top: 20px;
+        opacity: 1;
+        margin-top: 15px;
     }
     100% {
-        opacity: 0;
-        margin-top: 20px;
+        opacity: 1;
+        margin-top: 0px;
     }
 }
 
@@ -127,21 +133,66 @@ body {
         opacity: 0;
         margin-top: 0px;
     }
-    10% {
+    55% {
+        opacity: 1;
+        margin-top: 10px;
+    }
+    60% {
+        opacity: 1;
+        margin-top: 15px;
+    }
+    90% {
         opacity: 1;
         margin-top: 20px;
     }
-    45% {
+    100% {
         opacity: 1;
         margin-top: 20px;
     }
-    50% {
+}
+@keyframes fadeOutUp {
+    0% {
+        opacity: 1;
+        margin-top: 20px;
+    }
+    55% {
+        opacity: 1;
+        margin-top: 20px;
+    }
+    60% {
+        opacity: 1;
+        margin-top: 10px;
+    }
+    90% {
         opacity: 0;
-        margin-top: 0px;
+        margin-top: 15px;
     }
     100% {
         opacity: 0;
         margin-top: 0px;
+    }
+}
+
+@keyframes fadeOutDown {
+    0% {
+        opacity: 1;
+        margin-top: 0px;
+    }
+    55% {
+        opacity: 1;
+        margin-top: 10px;
+    }
+    60% {
+        opacity: 1;
+        margin-top: 15px;
+    }
+    90% {
+        opacity: 0;
+        margin-top: 20px;
+    }
+    100% {
+        opacity: 0;
+        margin-top: 20px;
     }
 }
 
@@ -163,10 +214,12 @@ body {
         margin-top: -50px;
     }
     100% {
-        opacity: 0;
-        margin-top: 0px;
+        opacity: 1;
+        margin-top: -50px;
     }
 }
+
+
 
 .f {
     font-size: 0.8em;
@@ -189,5 +242,7 @@ body {
 
 h1.msg {
     font-size: 5em;
-    animation: fadeInDown2 20s infinite;
+    animation: fadeInDown2 5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
 }
