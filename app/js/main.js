@@ -5,6 +5,7 @@
 var Connector = require('./js/connector');
 var LeapControl = require('./js/leap');
 var Room = require('./js/room');
+var Keys = require('./js/keys');
 
 
 var blocker = document.getElementById('blocker');
@@ -25,9 +26,14 @@ var messages = {
     "title": ["- Sphr ", "Motion -"]
 };
 
+
 var initInterface = function(){
+    instructions.style.display = 'none';
     Room.init();
+    document.body.removeEventListener('click', initInterface, false);
     window.addEventListener('resize', Room.onWindowResize, false);
+    document.addEventListener('keydown', Keys.onKeyDown, false);
+    document.addEventListener('keyup', Keys.onKeyUp, false);
     Room.render();
 };
 
@@ -50,10 +56,7 @@ var appendWelcome = function(){
     container3.appendChild(message2);
     var globalContainer = document.getElementById("global");
     globalContainer.appendChild(container3);
-    document.body.addEventListener('click', function (event) {
-        instructions.style.display = 'none';
-        initInterface();
-    }, false);
+    document.body.addEventListener('click', initInterface, false);
 };
 
 var updateMessage = function(messageId){
@@ -151,14 +154,52 @@ var load = function () {
     Connector.getWifi(readWifiName);
 };
 
+var i = 0;
+var control = function(frame){
+    if (frame.hands.length > 1){
+        i = i + 1;
+        hand = frame.hands[0];
+        console.log("whooo", i);
+        if (i == 50){
+            console.log("whooo2");
+            console.log("sending folowing form : x = " + hand.rotationAxis(frame)[0] + " y = " + hand.rotationAxis(frame)[1] + " z = " + hand.rotationAxis(frame)[2])
+            i = 0;
+            var formule = { x_pos: hand.rotationAxis(frame)[0], y_pos: hand.rotationAxis(frame)[1], z_pos: hand.rotationAxis(frame)[2] };
+            Room.move_sphere(hand.rotationAxis(frame)[0], hand.rotationAxis(frame)[1]);
+            //var request = require("request");
 
-var control = function(leapController){
-    console.log(leapController);
+            //var options = { method: 'POST',
+            //    url: 'http://163.173.96.154:8080/api/directions',
+            //    headers:
+            //    { 'content-type': 'application/x-www-form-urlencoded',
+            //        'postman-token': 'efccd8d7-385a-0e54-2f99-4daf484a612b',
+            //        'cache-control': 'no-cache' },
+            //    form: formule };
+            //
+            //request(options, function (error, response, body) {
+            //    if (error) throw new Error(error);
+            //
+            //    console.log(body);
+            //});
+        }
+    }
+};
+
+var switchControls = function(type){
+    if (type === "leap"){
+        console.log("switching controls to leap motion");
+        document.removeEventListener('keydown', Keys.onKeyDown, false);
+        document.removeEventListener('keyup', Keys.onKeyUp, false);
+    } else {
+        console.log("switching controls to keyboard");
+        document.addEventListener('keydown', Keys.onKeyDown, false);
+        document.addEventListener('keyup', Keys.onKeyUp, false);
+
+    }
 };
 
 load();
 LeapControl.control(control);
-
 
 LeapControl.leapControler.on('streamingStarted', onDeviceReady);
 LeapControl.leapControler.on('streamingStopped', onDeviceDisconnected);
@@ -166,6 +207,7 @@ LeapControl.leapControler.on('streamingStopped', onDeviceDisconnected);
 function onDeviceReady(evt)
 {
     appendLeapMessage("Leap motion ready, use gestures to move the ball around");
+
 }
 function onDeviceDisconnected(evt)
 {

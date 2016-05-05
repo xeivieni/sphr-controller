@@ -2,8 +2,8 @@
  * Created by clem on 04/05/2016.
  */
 
-
 var camera, scene, renderer, sphere_object;
+
 
 var Room = (function () {
     var self = {};
@@ -90,6 +90,17 @@ var Room = (function () {
         camera.lookAt(scene.position);
         renderer.render(scene, camera);
     };
+
+    self.move_sphere = function (x_direction, z_direction) {
+        // Look at the rotations, they actually depend on the orientation of the ball
+        console.log("ball shall move");
+        sphere_object.rotation.x += x_direction;
+        sphere_object.position.z += (20 * x_direction);
+        sphere_object.rotation.z += -z_direction;
+        sphere_object.position.x += (10 * z_direction);
+        self.render();
+    };
+
     return self;
 })();
 
