@@ -4,6 +4,9 @@
 
 var Connector = require('./js/connector');
 var LeapControl = require('./js/leap');
+var Room = require('./js/room');
+
+
 var blocker = document.getElementById('blocker');
 var instructions = document.getElementById('instructions');
 var waiter;
@@ -22,7 +25,21 @@ var messages = {
     "title": ["- Sphr ", "Motion -"]
 };
 
-var mode = "arrows";
+var initInterface = function(){
+    Room.init();
+    window.addEventListener('resize', Room.onWindowResize, false);
+    Room.render();
+};
+
+
+var appendLeapMessage = function(message){
+    var oldMessage = document.getElementById("leapMessage");
+    if (oldMessage !== null){
+        document.body.removeChild(oldMessage);
+    }
+    var leapMessage = createClass("p", "leapMessage", "f", '', message);
+    document.body.appendChild(leapMessage);
+};
 
 var appendWelcome = function(){
     var container3 = createClass("div", "container3", "container container", 3, '');
@@ -33,6 +50,10 @@ var appendWelcome = function(){
     container3.appendChild(message2);
     var globalContainer = document.getElementById("global");
     globalContainer.appendChild(container3);
+    document.body.addEventListener('click', function (event) {
+        instructions.style.display = 'none';
+        initInterface();
+    }, false);
 };
 
 var updateMessage = function(messageId){
@@ -126,6 +147,7 @@ var readWifiName = function(response){
 var load = function () {
     waiter = createLoader("check");
     instructions.appendChild(waiter);
+    appendLeapMessage("No leap motion detected yet, use arrow keys to move the ball or connect one");
     Connector.getWifi(readWifiName);
 };
 
@@ -137,8 +159,15 @@ var control = function(leapController){
 load();
 LeapControl.control(control);
 
-if (LeapControl.leapControler.connected() === true){
-    console.log("Leap motion connected, use gestures to move the ball around");
-} else {
-    console.log("Leap motion not detected, use arrows to control the ball");
+
+LeapControl.leapControler.on('streamingStarted', onDeviceReady);
+LeapControl.leapControler.on('streamingStopped', onDeviceDisconnected);
+
+function onDeviceReady(evt)
+{
+    appendLeapMessage("Leap motion ready, use gestures to move the ball around");
+}
+function onDeviceDisconnected(evt)
+{
+    appendLeapMessage("Leap motion disconnected, use arrow keys to move the ball around");
 }

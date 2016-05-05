@@ -22,7 +22,6 @@ else {
 
 var connectedToRobot = false;
 
-
 var controlsEnabled = false;
 
 var waiter = document.createElement("div");
