@@ -45,11 +45,11 @@ var updateMessage = function(messageId){
     }
     if (messageId === "success"){
         textContainer.style.animationName = "fadeOutDown";
-        textContainer.style.animationDelay = "5s";
-        textContainer.style.animationDuration = "2s";
-        circlesContainer.style.animationName = "fadeOutDown";
-        circlesContainer.style.animationDelay = "5s";
-        circlesContainer.style.animationDuration = "2s";
+        textContainer.style.animationDuration = "10s";
+        textContainer.style.animationFillMode = "forwards";
+        circlesContainer.style.animationName = "fadeOutUp";
+        circlesContainer.style.animationDuration = "10s";
+        circlesContainer.style.animationFillMode = "forwards";
         appendWelcome();
     }
     textContainer.appendChild(message);
@@ -78,11 +78,11 @@ var createLoader = function (status) {
     }
     if (status === "success"){
         container2.style.animationName = "fadeOutDown";
-        //container2.style.animationDelay = "5s";
-        container2.style.animationDuration = "2s";
-        container.style.animationName = "fadeOutDown";
-        //container.style.animationDelay = "5s";
-        container.style.animationDuration = "2s";
+        container2.style.animationDuration = "10s";
+        container2.style.animationFillMode = "forwards";
+        container.style.animationName = "fadeOutUp";
+        container.style.animationDuration = "10s";
+        container.style.animationFillMode = "forwards";
         appendWelcome();
     }
     container2.appendChild(message);

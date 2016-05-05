@@ -14,16 +14,19 @@ body {
 }
 
 .container1 {
-    animation: fadeInDown 5s;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
+    /*animation: fadeInDown 2s;*/
+    /*animation-iteration-count: 1;*/
+    /*animation-fill-mode: forwards;*/
+    transform: translate( -1%, 0%);
+
 }
 
 .container2 {
-    animation: fadeInUp 5s;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    text-align: left;
+    /*animation: fadeInUp 2s;*/
+    /*animation-iteration-count: 1;*/
+    /*animation-fill-mode: forwards;*/
+    transform: translate( -4%, -45%);
+
 }
 
 .container3 {
@@ -153,23 +156,23 @@ body {
 @keyframes fadeOutUp {
     0% {
         opacity: 1;
-        margin-top: 20px;
+        margin-top: 0px;
+    }
+    50% {
+        opacity: 1;
+        margin-top: 0px;
     }
     55% {
-        opacity: 1;
-        margin-top: 20px;
-    }
-    60% {
-        opacity: 1;
-        margin-top: 10px;
+        opacity: 0;
+        margin-top: -50px;
     }
     90% {
         opacity: 0;
-        margin-top: 15px;
+        margin-top: -50px;
     }
     100% {
         opacity: 0;
-        margin-top: 0px;
+        margin-top: -50px;
     }
 }
 
@@ -178,21 +181,21 @@ body {
         opacity: 1;
         margin-top: 0px;
     }
-    55% {
+    50% {
         opacity: 1;
-        margin-top: 10px;
+        margin-top: 0px;
     }
-    60% {
-        opacity: 1;
-        margin-top: 15px;
+    55% {
+        opacity: 0;
+        margin-top: 50px;
     }
     90% {
         opacity: 0;
-        margin-top: 20px;
+        margin-top: 50px;
     }
     100% {
         opacity: 0;
-        margin-top: 20px;
+        margin-top: 50px;
     }
 }
 
@@ -242,7 +245,7 @@ body {
 
 h1.msg {
     font-size: 5em;
-    animation: fadeInDown2 5s;
+    animation: fadeInDown2 10s;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
 }
