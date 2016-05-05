@@ -3,7 +3,8 @@
  */
 
 var Connector = require('./js/connector');
-
+var LeapControl = require('./js/leap');
+var blocker = document.getElementById('blocker');
 var instructions = document.getElementById('instructions');
 var waiter;
 
@@ -128,4 +129,16 @@ var load = function () {
     Connector.getWifi(readWifiName);
 };
 
+
+var control = function(leapController){
+    console.log(leapController);
+};
+
 load();
+LeapControl.control(control);
+
+if (LeapControl.leapControler.connected() === true){
+    console.log("Leap motion connected, use gestures to move the ball around");
+} else {
+    console.log("Leap motion not detected, use arrows to control the ball");
+}

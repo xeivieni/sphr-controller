@@ -14,21 +14,21 @@ var Connector = (function () {
     var self = {};
     wifi.init(settings);
 
-    self.connect = function(config, callback){
-        wifi.connectToAP(config, function(err, response) {
+    self.connect = function (config, callback) {
+        wifi.connectToAP(config, function (err, response) {
             if (err) console.log(err); //GERER CA DANS LE CALLBACK ET AFFICHER UN MESSAGE D'ERREUR
             callback(response);
         });
     };
 
-    self.scan = function(callback){
-        wifi.scanForWiFi( function(err, response) {
+    self.scan = function (callback) {
+        wifi.scanForWiFi(function (err, response) {
             if (err) console.log(err); //GERER CA DANS LE CALLBACK ET AFFICHER UN MESSAGE D'ERREUR
             callback(response);
         });
     };
 
-    self.getWifi = function(callback){
+    self.getWifi = function (callback) {
         var response = wifi.getIfaceState();
         callback(response);
     };
