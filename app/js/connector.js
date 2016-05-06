@@ -3,12 +3,9 @@
  */
 
 var wifi = require('wifi-control');
+var config = require('../etc/config.json');
 
-var settings = {
-    debug : false,
-    iface: 'en0',
-    connectionTimeout: 10000
-};
+var settings = config['wifi-settings'];
 
 var Connector = (function () {
     var self = {};

@@ -1,0 +1,45 @@
+{
+  "wifi": {
+    "ssid": "Pi_AP",
+    "password": "raspberry"
+  },
+  "wifi-settings": {
+    "debug": false,
+    "iface": "en0",
+    "connectionTimeout": 10000
+  },
+  "leap": {
+    "enableGestures": true
+  },
+  "messages": {
+    "check": [
+      "#",
+      "reading wifi network",
+      ""
+    ],
+    "scan": [
+      "#",
+      "looking for ",
+      "Pi_AP ",
+      "in the available wifi network list"
+    ],
+    "connection": [
+      "#",
+      "connecting to ",
+      "Pi_AP"
+    ],
+    "success": [
+      "#",
+      "connected"
+    ],
+    "error": [
+      "#",
+      "0 ",
+      "robot found"
+    ],
+    "title": [
+      "- Sphr ",
+      "Motion -"
+    ]
+  }
+}

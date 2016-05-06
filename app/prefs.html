@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Preferences</title>
+    <link href="ressources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<script>
+    //Disable scrolling the page
+    document.documentElement.style.overflow = 'hidden';  // firefox, chrome
+    document.body.scroll = "no"; // ie only
+</script>
+
+<style>
+    .navbar-inverse {
+        -webkit-app-region: drag;
+    }
+
+    body {
+        padding-top: 70px;
+    }
+</style>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="brand" href="#">Settings</a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="well sidebar-nav">
+                <ul class="nav nav-list">
+                    <li class="nav-header">Import / Export</li>
+                    <li class="active"><a href="#export" data-toggle="tab">Export</a></li>
+                    <li><a href="#import" data-toggle="tab">Import</a></li>
+                    <li class="nav-header">Configuration</li>
+                    <li><a href="#robot" data-toggle="tab">Robot</a></li>
+                    <li><a href="#wifi" data-toggle="tab">Wi-Fi</a></li>
+                    <li><a href="#leap" data-toggle="tab">Leap Motion</a></li>
+                    <li class="nav-header" data-toggle="tab">Display</li>
+                    <li><a href="#display" data-toggle="tab">Settings</a></li>
+                </ul>
+            </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="export">
+                    <ol class="breadcrumb">
+                        <li>Export configuration</li>
+                    </ol>
+                    <div class="container-fluid">
+                        <p>Export your setting into a Json file in order to import it later in another application.</p>
+                    </div>
+                </div>
+                <div class="tab-pane fade in" id="import">
+                    <ol class="breadcrumb">
+                        <li>Import configuration</li>
+                    </ol>
+                    <div class="container-fluid">
+                        <p>Import your favorite configuration.</p>
+                    </div>
+                </div>
+                <div class="tab-pane fade in" id="robot">
+                    <ol class="breadcrumb">
+                        <li>Configure robot parameters</li>
+                    </ol>
+                    <div class="container-fluid">
+                        <p>If you use a custom configuration on the robot, enter your settings here to ensure robot
+                            connection.</p>
+                    </div>
+                </div>
+                <div class="tab-pane fade in" id="wifi">
+                    <ol class="breadcrumb">
+                        <li>Configure Wi-Fi</li>
+                    </ol>
+                    <div class="container-fluid">
+                        <p>Setup your Wi-Fi settings that the application will use to access your computer's wireless
+                            interface in order to connect to the robot.</p>
+                    </div>
+                </div>
+                <div class="tab-pane fade in" id="leap">
+                    <ol class="breadcrumb">
+                        <li>Customize Leap Motion behaviour</li>
+                    </ol>
+                    <div class="container-fluid">
+                        <p>If you want to use a special configuration of the Leap Motion controller, enter your settings
+                            here and enjoy custom gestures.</p>
+                        <hr>
+                        <p>Calibrate Leap Motion</p>
+                    </div>
+                </div>
+                <div class="tab-pane fade in" id="display">
+                    <ol class="breadcrumb">
+                        <li>Customize display</li>
+                    </ol>
+                    <div class="container-fluid">
+                        <p>In this section you can customize the appearance of the application.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/span-->
+</div><!--/row-->
+<hr>
+
+<footer>
+    <p><a id="cancel-btn" class="btn btn-primary btn-warning">Cancel</a> <a id="save-btn"
+                                                                            class="btn btn-primary btn-success">Save</a>
+    </p>
+</footer>
+
+</div><!--/.fluid-container-->
+
+<script>
+    window.$ = window.jQuery = require('./ressources/jquery-1.12.3.min.js');
+</script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="ressources/bootstrap/js/bootstrap.js"></script>
+<script>
+    var ipc = require("electron").ipcRenderer;
+    var saveButton = document.getElementById("save-btn");
+    var cancelButton = document.getElementById("cancel-btn");
+    saveButton.addEventListener('click', function () {
+        ipc.send('toogle-settings');
+    });
+    cancelButton.addEventListener('click', function () {
+        ipc.send('toogle-settings');
+    });
+
+</script>
+</body>
+
+
+</html>

@@ -3,8 +3,9 @@
  */
 
 var Leap = require('leapjs');
+var config = require('../etc/config.json');
 
-var options = {enableGestures: true};
+var options = config['leap'];
 
 var LeapControl = (function () {
     var self = {};

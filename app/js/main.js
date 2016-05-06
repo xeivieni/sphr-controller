@@ -12,20 +12,11 @@ var blocker = document.getElementById('blocker');
 var instructions = document.getElementById('instructions');
 var waiter;
 
-var config = {
-    ssid: 'Pi_AP',
-    password: 'raspberry'
-};
+var config = require('./etc/config.json');
 
-var messages = {
-    "check": ["#", "reading wifi network", ''],
-    "scan": ["#", "looking for ", "Pi_AP ", "in the available wifi network list"],
-    "connection": ["#", "connecting to ", "Pi_AP"],
-    "success": ["#", "connected"],
-    "error": ["#", "0 ", "robot found"],
-    "title": ["- Sphr ", "Motion -"]
-};
+var wifiConfig = config['wifi'];
 
+var messages = config['messages'];
 
 var initInterface = function(){
     instructions.style.display = 'none';
@@ -126,10 +117,10 @@ var connectToWifi = function(response){
 var readWifiList = function (response) {
     var i, found = false;
     for (i in response['networks']) {
-        if (response['networks'][i]['ssid'] === 'Pi_AP') {
+        if (response['networks'][i]['ssid'] === wifiConfig['ssid']) {
             found = true;
             updateMessage("connection");
-            Connector.connect(config, connectToWifi);
+            Connector.connect(wifiConfig, connectToWifi);
         }
     }
     if (found === false){
@@ -138,7 +129,7 @@ var readWifiList = function (response) {
 };
 
 var readWifiName = function(response){
-    if (response['ssid'] === 'Pi_AP' && response['connection'] === 'connected') {
+    if (response['ssid'] === wifiConfig['ssid'] && response['connection'] === 'connected') {
         updateMessage("success");
     }
     else {
@@ -159,9 +150,7 @@ var control = function(frame){
     if (frame.hands.length > 1){
         i = i + 1;
         hand = frame.hands[0];
-        console.log("whooo", i);
         if (i == 50){
-            console.log("whooo2");
             console.log("sending folowing form : x = " + hand.rotationAxis(frame)[0] + " y = " + hand.rotationAxis(frame)[1] + " z = " + hand.rotationAxis(frame)[2])
             i = 0;
             var formule = { x_pos: hand.rotationAxis(frame)[0], y_pos: hand.rotationAxis(frame)[1], z_pos: hand.rotationAxis(frame)[2] };
@@ -207,9 +196,11 @@ LeapControl.leapControler.on('streamingStopped', onDeviceDisconnected);
 function onDeviceReady(evt)
 {
     appendLeapMessage("Leap motion ready, use gestures to move the ball around");
+    switchControls("leap");
 
 }
 function onDeviceDisconnected(evt)
 {
     appendLeapMessage("Leap motion disconnected, use arrow keys to move the ball around");
+    switchControls("keys");
 }
