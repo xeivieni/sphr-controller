@@ -51,56 +51,165 @@
         <div class="span9">
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="export">
-                    <ol class="breadcrumb">
-                        <li>Export configuration</li>
-                    </ol>
-                    <div class="container-fluid">
-                        <p>Export your setting into a Json file in order to import it later in another application.</p>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Export configuration</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>Export your setting into a Json file in order to import it later in another
+                                application.</p>
+
+
+                            <span class="btn btn-default btn-file">
+                                Browse <input type="file">
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade in" id="import">
-                    <ol class="breadcrumb">
-                        <li>Import configuration</li>
-                    </ol>
-                    <div class="container-fluid">
-                        <p>Import your favorite configuration.</p>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Import configuration</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>Import your favorite configuration.</p>
+
+                            <span class="btn btn-default btn-file">
+                                Browse <input type="file">
+                            </span>
+
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade in" id="robot">
-                    <ol class="breadcrumb">
-                        <li>Configure robot parameters</li>
-                    </ol>
-                    <div class="container-fluid">
-                        <p>If you use a custom configuration on the robot, enter your settings here to ensure robot
-                            connection.</p>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Configure robot parameters</h3>
+                        </div>
+                        <div class="panel-body" id="robot-panel-body">
+                            <p>If you use a custom configuration on the robot, enter your settings here to ensure robot
+                                connection.</p>
+
+                            <script>
+                                var config = require('./etc/config.json');
+                                var robotDiv = document.getElementById('robot-panel-body');
+                                var robotConfig = config['robot'];
+                                for (var prop in robotConfig) {
+                                    var inputGroup = document.createElement("div");
+                                    inputGroup.className = "input-group";
+                                    var inputGroupLabel = document.createElement("span");
+                                    inputGroupLabel.className = "input-group-addon";
+                                    inputGroupLabel.id = "label-" + prop + " ";
+                                    inputGroupLabel.innerHTML = prop;
+                                    inputGroup.appendChild(inputGroupLabel);
+                                    var inputGroupValue = document.createElement("input");
+                                    inputGroupValue.className = "form-control";
+                                    inputGroupValue.ariaDescribedby = "label-" + prop;
+                                    inputGroupValue.placeholder = robotConfig[prop];
+                                    inputGroup.appendChild(inputGroupValue);
+                                    robotDiv.appendChild(inputGroup);
+                                }
+                            </script>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade in" id="wifi">
-                    <ol class="breadcrumb">
-                        <li>Configure Wi-Fi</li>
-                    </ol>
-                    <div class="container-fluid">
-                        <p>Setup your Wi-Fi settings that the application will use to access your computer's wireless
-                            interface in order to connect to the robot.</p>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Configure Wi-Fi</h3>
+                        </div>
+                        <div class="panel-body" id="wifi-panel-body">
+                            <p>Setup your Wi-Fi settings that the application will use to access your computer's
+                                wireless
+                                interface in order to connect to the robot.</p>
+
+                            <script>
+                                var config = require('./etc/config.json');
+                                var wifiDiv = document.getElementById('wifi-panel-body');
+                                var wifiConfig = config['wifi-settings'];
+                                for (var prop in wifiConfig) {
+                                    var inputGroup = document.createElement("div");
+                                    inputGroup.className = "input-group";
+                                    var inputGroupLabel = document.createElement("span");
+                                    inputGroupLabel.className = "input-group-addon";
+                                    inputGroupLabel.id = "label-" + prop + " ";
+                                    inputGroupLabel.innerHTML = prop;
+                                    inputGroup.appendChild(inputGroupLabel);
+                                    var inputGroupValue = document.createElement("input");
+                                    inputGroupValue.className = "form-control";
+                                    inputGroupValue.ariaDescribedby = "label-" + prop;
+                                    inputGroupValue.placeholder = wifiConfig[prop];
+                                    inputGroup.appendChild(inputGroupValue);
+                                    wifiDiv.appendChild(inputGroup);
+                                }
+                            </script>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade in" id="leap">
-                    <ol class="breadcrumb">
-                        <li>Customize Leap Motion behaviour</li>
-                    </ol>
-                    <div class="container-fluid">
-                        <p>If you want to use a special configuration of the Leap Motion controller, enter your settings
-                            here and enjoy custom gestures.</p>
-                        <hr>
-                        <p>Calibrate Leap Motion</p>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Customize Leap Motion behaviour</h3>
+                        </div>
+                        <div class="panel-body" id="leap-panel-body">
+                            <p>If you want to use a special configuration of the Leap Motion controller, enter your
+                                settings
+                                here and enjoy custom gestures.</p>
+                            <script>
+                                var config = require('./etc/config.json');
+                                var leapDiv = document.getElementById('leap-panel-body');
+                                var leapConfig = config['leap'];
+                                for (var prop in leapConfig) {
+                                    var inputGroup = document.createElement("div");
+                                    inputGroup.className = "input-group";
+                                    var inputGroupLabel = document.createElement("span");
+                                    inputGroupLabel.className = "input-group-addon";
+                                    inputGroupLabel.id = "label-" + prop + " ";
+                                    inputGroupLabel.innerHTML = prop;
+                                    inputGroup.appendChild(inputGroupLabel);
+                                    var inputGroupValue = document.createElement("input");
+                                    inputGroupValue.className = "form-control";
+                                    inputGroupValue.ariaDescribedby = "label-" + prop;
+                                    inputGroupValue.placeholder = leapConfig[prop];
+                                    inputGroup.appendChild(inputGroupValue);
+                                    leapDiv.appendChild(inputGroup);
+                                }
+                            </script>
+                            <hr>
+                            <p>Calibrate Leap Motion</p>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade in" id="display">
-                    <ol class="breadcrumb">
-                        <li>Customize display</li>
-                    </ol>
-                    <div class="container-fluid">
-                        <p>In this section you can customize the appearance of the application.</p>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Customize display</h3>
+                        </div>
+                        <div class="panel-body" id="display-panel-body">
+                            <p>In this section you can customize the appearance of the application. This may effect the
+                                quality of the display and animations.</p>
+
+                            <script>
+                                var config = require('./etc/config.json');
+                                var displayDiv = document.getElementById('display-panel-body');
+                                var displayConfig = config['display'];
+                                for (var prop in displayConfig) {
+                                    var inputGroup = document.createElement("div");
+                                    inputGroup.className = "input-group";
+                                    var inputGroupLabel = document.createElement("span");
+                                    inputGroupLabel.className = "input-group-addon";
+                                    inputGroupLabel.id = "label-" + prop + " ";
+                                    inputGroupLabel.innerHTML = prop;
+                                    inputGroup.appendChild(inputGroupLabel);
+                                    var inputGroupValue = document.createElement("input");
+                                    inputGroupValue.className = "form-control";
+                                    inputGroupValue.ariaDescribedby = "label-" + prop;
+                                    inputGroupValue.placeholder = displayConfig[prop];
+                                    inputGroup.appendChild(inputGroupValue);
+                                    displayDiv.appendChild(inputGroup);
+                                }
+                            </script>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -110,9 +219,11 @@
 <hr>
 
 <footer>
+    <span class="pull-right" style="padding-right: 10px">
     <p><a id="cancel-btn" class="btn btn-primary btn-warning">Cancel</a> <a id="save-btn"
                                                                             class="btn btn-primary btn-success">Save</a>
     </p>
+    </span>
 </footer>
 
 </div><!--/.fluid-container-->

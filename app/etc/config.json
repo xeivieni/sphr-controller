@@ -1,5 +1,5 @@
 {
-  "wifi": {
+  "robot": {
     "ssid": "Pi_AP",
     "password": "raspberry"
   },
@@ -10,6 +10,11 @@
   },
   "leap": {
     "enableGestures": true
+  },
+  "display": {
+    "height": 700,
+    "width": 1200,
+    "background": "#242331"
   },
   "messages": {
     "check": [

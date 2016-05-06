@@ -12,11 +12,11 @@ var blocker = document.getElementById('blocker');
 var instructions = document.getElementById('instructions');
 var waiter;
 
-var config = require('./etc/config.json');
+var robotConfig = require('./etc/config.json')['robot'];
+var messages = require('./etc/config.json')['messages'];
 
-var wifiConfig = config['wifi'];
 
-var messages = config['messages'];
+document.body.style.background = require('./etc/config.json')["display"]["background"];
 
 var initInterface = function(){
     instructions.style.display = 'none';
@@ -117,10 +117,10 @@ var connectToWifi = function(response){
 var readWifiList = function (response) {
     var i, found = false;
     for (i in response['networks']) {
-        if (response['networks'][i]['ssid'] === wifiConfig['ssid']) {
+        if (response['networks'][i]['ssid'] === robotConfig['ssid']) {
             found = true;
             updateMessage("connection");
-            Connector.connect(wifiConfig, connectToWifi);
+            Connector.connect(robotConfig, connectToWifi);
         }
     }
     if (found === false){
@@ -129,7 +129,7 @@ var readWifiList = function (response) {
 };
 
 var readWifiName = function(response){
-    if (response['ssid'] === wifiConfig['ssid'] && response['connection'] === 'connected') {
+    if (response['ssid'] === robotConfig['ssid'] && response['connection'] === 'connected') {
         updateMessage("success");
     }
     else {

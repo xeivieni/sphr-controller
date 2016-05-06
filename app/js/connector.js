@@ -3,9 +3,8 @@
  */
 
 var wifi = require('wifi-control');
-var config = require('../etc/config.json');
+var settings = require('../etc/config.json')['wifi-settings'];
 
-var settings = config['wifi-settings'];
 
 var Connector = (function () {
     var self = {};

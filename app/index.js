@@ -2,12 +2,14 @@ var app = require('app');
 var browserWindow = require('browser-window');
 var ipc = require('electron').ipcMain;
 var Menu = require('menu');
+var config = require('./etc/config.json')['display'];
+
 
 app.on('ready', function(){
     var mainWindow = new browserWindow({
-        width: 1200,
-        height: 700,
-        title: "Sph-R",
+        width: config["width"],
+        height: config["height"],
+        title: "Sphr Motion",
         skipTaskbar: true,
         useContentSize:true
     });
@@ -108,7 +110,7 @@ app.on('ready', function(){
     });
 
     settingsWindow.loadURL('file://' + __dirname + '/prefs.html');
-    //settingsWindow.openDevTools();
+    settingsWindow.openDevTools();
 
     mainWindow.loadURL('file://' + __dirname + '/index.html');
     //mainWindow.openDevTools();
