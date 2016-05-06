@@ -19,6 +19,7 @@ var Room = (function () {
         var texture = new THREE.Texture(self.generateTexture());
         texture.needsUpdate = true;
 
+        // TODO : Use config to set ball color
         var sphere_material = new THREE.MeshPhongMaterial({
             color: 0xffffff,
             specular: 0xffffff,
