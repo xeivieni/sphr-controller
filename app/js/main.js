@@ -38,6 +38,13 @@ var appendLeapMessage = function(message){
     document.body.appendChild(leapMessage);
 };
 
+var appendRetry = function () {
+    var container = createClass("div", "container4", "container container", 4, "");
+    var button = createClass("button", "retryButton", "btn btn-2 btn-2g", '', "Retry");
+    container.appendChild(button);
+    instructions.appendChild(container);
+};
+
 var appendWelcome = function(){
     var container3 = createClass("div", "container3", "container container", 3, '');
     var message2 = createClass("h1", "message2", "msg", '', '');
@@ -67,6 +74,9 @@ var updateMessage = function(messageId){
         circlesContainer.style.animationDuration = "10s";
         circlesContainer.style.animationFillMode = "forwards";
         appendWelcome();
+    }
+    if (messageId === "error"){
+        appendRetry();
     }
     textContainer.appendChild(message);
 };
@@ -204,3 +214,5 @@ function onDeviceDisconnected(evt)
     appendLeapMessage("Leap motion disconnected, use arrow keys to move the ball around");
     switchControls("keys");
 }
+
+

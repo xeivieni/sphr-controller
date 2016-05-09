@@ -104,7 +104,7 @@ app.on('ready', function(){
 
     Menu.setApplicationMenu(menu);
 
-    var settingsWindow = new browserWindow({ width: 800, height: 600, show: false, frame: false, minHeight:600, minWidth:800 });
+    var settingsWindow = new browserWindow({ width: 800, height: 500, show: false, frame: false, minHeight:600, minWidth:800 });
     settingsWindow.on('close', function (event) {
         settingsWindow = null;
     });

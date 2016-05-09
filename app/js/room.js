@@ -14,18 +14,19 @@ var Room = (function () {
         camera.position.set(0, 200, 800);
         scene = new THREE.Scene();
 
-        scene.add(new THREE.GridHelper(500, 50));
+        scene.add(new THREE.GridHelper(5000, 50));
 
         var texture = new THREE.Texture(self.generateTexture());
         texture.needsUpdate = true;
 
         // TODO : Use config to set ball color
         var sphere_material = new THREE.MeshPhongMaterial({
-            color: 0xffffff,
+            color: 0x180fbe,
+            emissive: 0x000000,
             specular: 0xffffff,
             shininess: 30,
             shading: THREE.SmoothShading,
-            map: texture,
+            //map: texture,
             transparent: false
         });
 
@@ -88,13 +89,12 @@ var Room = (function () {
     };
 
     self.render = function () {
-        camera.lookAt(scene.position);
+        camera.lookAt(sphere_object.position);
         renderer.render(scene, camera);
     };
 
     self.move_sphere = function (x_direction, z_direction) {
         // Look at the rotations, they actually depend on the orientation of the ball
-        console.log("ball shall move");
         sphere_object.rotation.x += x_direction;
         sphere_object.position.z += (20 * x_direction);
         sphere_object.rotation.z += -z_direction;

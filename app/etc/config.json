@@ -1,7 +1,7 @@
 {
   "robot": {
-    "ssid": "Pi_AP",
-    "password": "raspberry"
+    "ssid": "connexion_impossible",
+    "password": "jeroule1joint2beuh3fois"
   },
   "wifi-settings": {
     "debug": false,
