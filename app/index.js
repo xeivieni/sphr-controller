@@ -110,7 +110,7 @@ app.on('ready', function(){
     });
 
     settingsWindow.loadURL('file://' + __dirname + '/prefs.html');
-    settingsWindow.openDevTools();
+    //settingsWindow.openDevTools();
 
     mainWindow.loadURL('file://' + __dirname + '/index.html');
     //mainWindow.openDevTools();
@@ -122,6 +122,10 @@ app.on('ready', function(){
         } else {
             settingsWindow.show();
         }
+    });
+
+    ipc.on('restart-app', function(event, args) {
+        app.restart();
     })
 });
 

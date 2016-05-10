@@ -7,6 +7,11 @@ var saveButton = document.getElementById("save-btn");
 var cancelButton = document.getElementById("cancel-btn");
 var defaultButton = document.getElementById("default-btn");
 
+var jsonfile = require('jsonfile');
+var actualConfig = require("./etc/config.json");
+
+var file = __dirname + "/etc/config.json";
+
 var fs = require('fs');
 
 function copyDefaultConfig(source, target, cb) {
@@ -44,46 +49,39 @@ var handleCopyError = function(x){
 
 saveButton.addEventListener('click', function () {
     ipc.send('toogle-settings');
-    var objects = document.getElementsByClassName("panel-body");
-    //var object = objects.getElementsByClassName("input-group");
-    //var input = object.getElementsByClassName("form-control");
-    //console.log(input);
-    //var inputGroups = [];
-    //var forms = Array;
-    for (var object in objects){
-        try {
-            var inputGroups = objects[object].getElementsByClassName("input-group");
-        }
-        catch(err) {
-            //console.log(err);
-        }
-        for (var i=0; i<inputGroups.length; i++){
-            console.log(inputGroups[i].getElementsByClassName("form-control")[0]["value"]);
-            //var forms = (inputGroups[i].getElementsByClassName("form-control"));
-            //for (var form in forms){
-            //    console.log(forms[form]);
-            //}
+    //var objects = document.getElementsByClassName("panel-body");
+    var objects = document.getElementsByClassName("input-group");
+    var newConfig = {};
 
+    for (var o in objects){
+        try {
+            var key = objects[o]["childNodes"][0]["textContent"];
+            newConfig[key] = objects[o]["childNodes"][1]["value"];
+        }
+        catch (error){
+            console.log(error);
         }
     }
-    //console.log(forms);
+    console.log(newConfig);
+    for (var configKey in newConfig){
+        for (var category in actualConfig){
+            if ((actualConfig[category].hasOwnProperty(configKey)) && (newConfig[configKey] !== '')){
+                console.log("found something to change at");
+                console.log(actualConfig[category][configKey]);
+                console.log("new value is ");
+                console.log(newConfig[configKey]);
+                actualConfig[category][configKey] = newConfig[configKey];
+            }
+        }
+    }
+    console.log(actualConfig);
 
-    ////for (var panelBody in objects){
-    ////    for (var childNodes in objects[panelBody]['childNodes']){
-    ////        console.log(objects[panelBody]['childNodes'][childNodes]);
-    ////    }
-    ////}
-    //for (var childNodes in objects){
-    //    if (objects.hasOwnProperty(childNodes)){
-    //        for (var elements in childNodes){
-    //            if (childNodes.hasOwnProperty(elements)){
-    //                for (var subelements in elements){
-    //                    console.log(objects[childNodes][elements][subelements]);
-    //                }
-    //            }
-    //        }
-    //    }
-    //}
+    jsonfile.writeFile(file, actualConfig, function (err) {
+        console.error(err)
+    })
+
+
+
 });
 cancelButton.addEventListener('click', function () {
     ipc.send('toogle-settings');

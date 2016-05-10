@@ -13,6 +13,7 @@
     "electron-prebuilt": "^0.37.6"
   },
   "dependencies": {
+    "jsonfile": "^2.3.0",
     "leapjs": "^0.6.4",
     "request": "^2.72.0",
     "slideout": "^0.1.12",
