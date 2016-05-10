@@ -41,6 +41,7 @@ var appendLeapMessage = function(message){
 var appendRetry = function () {
     var container = createClass("div", "container4", "container container", 4, "");
     var button = createClass("button", "retryButton", "btn btn-2 btn-2g", '', "Retry");
+    button.addEventListener('click', retry, false);
     container.appendChild(button);
     instructions.appendChild(container);
 };
@@ -155,6 +156,14 @@ var load = function () {
     Connector.getWifi(readWifiName);
 };
 
+var retry = function () {
+    var waiter = document.getElementById("global");
+    var buttonContainer = document.getElementById("container4");
+    instructions.removeChild(waiter);
+    instructions.removeChild(buttonContainer);
+    load();
+};
+
 var i = 0;
 var control = function(frame){
     if (frame.hands.length > 1){
@@ -163,23 +172,8 @@ var control = function(frame){
         if (i == 50){
             console.log("sending folowing form : x = " + hand.rotationAxis(frame)[0] + " y = " + hand.rotationAxis(frame)[1] + " z = " + hand.rotationAxis(frame)[2])
             i = 0;
-            var formule = { x_pos: hand.rotationAxis(frame)[0], y_pos: hand.rotationAxis(frame)[1], z_pos: hand.rotationAxis(frame)[2] };
             Room.move_sphere(hand.rotationAxis(frame)[0], hand.rotationAxis(frame)[1]);
-            //var request = require("request");
 
-            //var options = { method: 'POST',
-            //    url: 'http://163.173.96.154:8080/api/directions',
-            //    headers:
-            //    { 'content-type': 'application/x-www-form-urlencoded',
-            //        'postman-token': 'efccd8d7-385a-0e54-2f99-4daf484a612b',
-            //        'cache-control': 'no-cache' },
-            //    form: formule };
-            //
-            //request(options, function (error, response, body) {
-            //    if (error) throw new Error(error);
-            //
-            //    console.log(body);
-            //});
         }
     }
 };
