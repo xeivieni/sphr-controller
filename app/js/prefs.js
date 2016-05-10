@@ -40,11 +40,15 @@ function copyDefaultConfig(source, target, cb) {
 
 var handleCopyError = function(x){
     if(typeof x === 'undefined') {
-        console.log("reload the page");
+        var r = confirm('Configuration successfully updated\nClick Ok to quit the app');
+        if (r == true) {
+            ipc.send('quit-app');
+        } else {
+            alert('The configuration modifications will not be taken into account until restart');
+        }
     } else {
-        console.log("error...");
+        alert('An error occurred');
     }
-    //TODO
 };
 
 saveButton.addEventListener('click', function () {
@@ -77,12 +81,12 @@ saveButton.addEventListener('click', function () {
 
     jsonfile.writeFile(file, actualConfig, function (err) {
         if (err === null){
-            //ipc.send('toogle-settings');
+            ipc.send('toogle-settings');
             var r = confirm('Configuration successfully updated\nClick Ok to quit the app');
             if (r == true) {
                 ipc.send('quit-app');
             } else {
-                alert('The configuration modifications will not be taken into account');
+                alert('The configuration modifications will not be taken into account until restart');
             }
         } else {
             console.error(err);

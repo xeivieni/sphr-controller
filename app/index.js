@@ -7,8 +7,8 @@ var config = require('./etc/config.json')['display'];
 
 app.on('ready', function(){
     var mainWindow = new browserWindow({
-        width: config["width"],
-        height: config["height"],
+        width: parseInt(config["width"]),
+        height: parseInt(config["height"]),
         title: "Sphr Motion",
         skipTaskbar: true,
         useContentSize:true
