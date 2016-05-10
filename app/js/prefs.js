@@ -48,7 +48,6 @@ var handleCopyError = function(x){
 };
 
 saveButton.addEventListener('click', function () {
-    ipc.send('toogle-settings');
     //var objects = document.getElementsByClassName("panel-body");
     var objects = document.getElementsByClassName("input-group");
     var newConfig = {};
@@ -77,11 +76,18 @@ saveButton.addEventListener('click', function () {
     console.log(actualConfig);
 
     jsonfile.writeFile(file, actualConfig, function (err) {
-        console.error(err)
-    })
-
-
-
+        if (err === null){
+            //ipc.send('toogle-settings');
+            var r = confirm('Configuration successfully updated\nClick Ok to quit the app');
+            if (r == true) {
+                ipc.send('quit-app');
+            } else {
+                alert('The configuration modifications will not be taken into account');
+            }
+        } else {
+            console.error(err);
+        }
+    });
 });
 cancelButton.addEventListener('click', function () {
     ipc.send('toogle-settings');

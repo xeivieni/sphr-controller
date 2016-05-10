@@ -14,6 +14,10 @@ app.on('ready', function(){
         useContentSize:true
     });
 
+    mainWindow.on('closed', function () {
+        app.quit();
+    });
+
     var menu = Menu.buildFromTemplate([
         {
             label: 'Sphr Motion',
@@ -124,8 +128,8 @@ app.on('ready', function(){
         }
     });
 
-    ipc.on('restart-app', function(event, args) {
-        app.restart();
+    ipc.on('quit-app', function(event, args) {
+        app.quit();
     })
 });
 
