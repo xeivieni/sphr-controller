@@ -7,6 +7,7 @@ var camera, scene, renderer, sphere_object;
 
 var Room = (function () {
     var self = {};
+    var Connector = require('./connector');
 
     self.init = function () {
         var container = document.getElementById('container');
@@ -93,25 +94,18 @@ var Room = (function () {
         renderer.render(scene, camera);
     };
 
+    self.updateRoom = function (response) {
+          if (response['contact'] == true){
+              console.log('insert wall at : ', sphere_object.position.x, sphere_object.position.y)
+          }
+    };
+
     self.move_sphere = function (x_direction, z_direction) {
         // Look at the rotations, they actually depend on the orientation of the ball
         var controls = { x_direction: x_direction, y_direction: z_direction};
-        var request = require("request");
 
-        var options = { method: 'POST',
-            url: 'http://localhost:8000/controls/',
-            headers:
-            { 'content-type': 'application/x-www-form-urlencoded',
-                'postman-token': '7a1d9906-b700-e653-6444-6328de07f119',
-                'cache-control': 'no-cache',
-                authorization: 'Basic Y29udHJvbGVyOnBhc3N3b3JkMDE=' },
-            form: controls };
+        Connector.send(controls, self.updateRoom);
 
-        request(options, function (error, response, body) {
-            if (error) throw new Error(error);
-
-            console.log(body);
-        });
         sphere_object.rotation.x += x_direction;
         sphere_object.position.z += (20 * x_direction);
         sphere_object.rotation.z += -z_direction;

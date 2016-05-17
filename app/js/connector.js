@@ -4,6 +4,7 @@
 
 var wifi = require('wifi-control');
 var settings = require('../etc/config.json')['wifi-settings'];
+var request = require("request");
 
 // Main module for wifi connection
 var Connector = (function () {
@@ -31,6 +32,23 @@ var Connector = (function () {
     self.getWifi = function (callback) {
         var response = wifi.getIfaceState();
         callback(response);
+    };
+
+    self.send = function(coordinates, callback) {
+        var options = { method: 'POST',
+            url: 'http://localhost:8000/api/controls/',
+            headers:
+            { 'content-type': 'application/x-www-form-urlencoded',
+                'postman-token': '7a1d9906-b700-e653-6444-6328de07f119',
+                'cache-control': 'no-cache',
+                authorization: 'Basic Y29udHJvbGVyOnJhc3BiZXJyeQ==' },
+            form: coordinates };
+
+        request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+            console.log(response);
+            callback(body);
+        });
     };
 
     return self;
