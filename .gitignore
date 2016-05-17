@@ -4,3 +4,5 @@ node_modules/*
 .idea/*
 
 app/etc/config.json
+
+app/icons/Sans titre.xcf
