@@ -25,17 +25,18 @@
     "scan": [
       "#",
       "looking for ",
-      "Pi_AP ",
+      "-wifi- ",
       "in the available wifi network list"
     ],
     "connection": [
       "#",
       "connecting to ",
-      "Pi_AP"
+      "-wifi-"
     ],
     "success": [
       "#",
-      "connected"
+      "connected to ",
+      "-wifi-"
     ],
     "error": [
       "#",

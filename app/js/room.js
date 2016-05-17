@@ -12,29 +12,29 @@ var Room = (function () {
     self.init = function () {
         var container = document.getElementById('container');
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
-        camera.position.set(0, 200, 800);
+        camera.position.set(0, 200, 1200);
         scene = new THREE.Scene();
 
-        scene.add(new THREE.GridHelper(5000, 50));
+        scene.add(new THREE.GridHelper(1000, 50));
 
-        var texture = new THREE.Texture(self.generateTexture());
+        //var texture = new THREE.Texture(self.generateTexture());
+        var texture = new THREE.TextureLoader().load("./icons/8pool.png");
         texture.needsUpdate = true;
 
         // TODO : Use config to set ball color
         var sphere_material = new THREE.MeshPhongMaterial({
-            color: 0x180fbe,
-            emissive: 0x000000,
+            color: 0Xffffff,
             specular: 0xffffff,
-            shininess: 30,
+            shininess: 50,
             shading: THREE.SmoothShading,
-            //map: texture,
+            map: texture,
             transparent: false
         });
 
         var sphere_geometry = new THREE.SphereGeometry(50, 32, 16);
 
         sphere_object = new THREE.Mesh(sphere_geometry, sphere_material);
-        sphere_object.position.z = 250;
+        sphere_object.position.z = 400;
         sphere_object.position.x = 0;
         sphere_object.position.y = 110;
 
@@ -42,11 +42,6 @@ var Room = (function () {
         scene.add(sphere_object);
 
         scene.add(new THREE.AmbientLight(0x111111));
-
-        //
-        //document.addEventListener('keydown', onKeyDown, false);
-        //document.addEventListener('keyup', onKeyUp, false);
-
 
         var directionalLight = new THREE.DirectionalLight(/*Math.random() * */ 0xffffff, 0.125);
         directionalLight.position.x = Math.random() - 0.5;
@@ -68,6 +63,7 @@ var Room = (function () {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+        self.render();
     };
 
     self.generateTexture = function () {
@@ -96,21 +92,29 @@ var Room = (function () {
 
     self.updateRoom = function (response) {
           if (response['contact'] == true){
-              console.log('insert wall at : ', sphere_object.position.x, sphere_object.position.y)
+              console.log('insert wall at : ', sphere_object.position.x, sphere_object.position.z)
           }
     };
 
     self.move_sphere = function (x_direction, z_direction) {
         // Look at the rotations, they actually depend on the orientation of the ball
         var controls = { x_direction: x_direction, y_direction: z_direction};
+        //Connector.send(controls, self.updateRoom);
 
-        Connector.send(controls, self.updateRoom);
+        if ((sphere_object.position.z + (20*x_direction) < -180) || (sphere_object.position.z + (20*x_direction) > 1020)){
+            console.log('out of z bounds');
+        }
+        else if ((sphere_object.position.x + (20*z_direction) < -680) || (sphere_object.position.x + (20*z_direction) > 660)){
+            console.log('out of x bounds');
+        }
+        else {
+            sphere_object.rotation.x += x_direction;
+            sphere_object.position.z += (20 * x_direction);
+            sphere_object.rotation.y += -z_direction;
+            sphere_object.position.x += (20 * z_direction);
+            self.render();
+        }
 
-        sphere_object.rotation.x += x_direction;
-        sphere_object.position.z += (20 * x_direction);
-        sphere_object.rotation.z += -z_direction;
-        sphere_object.position.x += (10 * z_direction);
-        self.render();
     };
 
     return self;
