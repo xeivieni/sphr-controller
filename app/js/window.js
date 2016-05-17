@@ -67,10 +67,23 @@ var Window = (function () {
             textContainer.style.animationName = "fadeOutDown";
             textContainer.style.animationDuration = "10s";
             textContainer.style.animationFillMode = "forwards";
+            textContainer.style.transform = "translate(-6%, -40%)";
             circlesContainer.style.animationName = "fadeOutUp";
             circlesContainer.style.animationDuration = "10s";
             circlesContainer.style.animationFillMode = "forwards";
             self.appendWelcome();
+        }
+        else if (messageId == "check"){
+            textContainer.style.transform = "translate(-6%, -40%)";
+        }
+        else if (messageId == "scan"){
+            textContainer.style.transform = "translate(-14%, -40%)";
+        }
+        else if (messageId == "connection"){
+            textContainer.style.transform = "translate(0%, -40%)";
+        }
+        else {
+            textContainer.style.transform = "translate(-5%, -40%)";
         }
         textContainer.appendChild(message);
     };
@@ -101,6 +114,7 @@ var Window = (function () {
             container2.style.animationName = "fadeOutDown";
             container2.style.animationDuration = "10s";
             container2.style.animationFillMode = "forwards";
+            container2.style.transform = "translate(-6%, -40%)";
             container.style.animationName = "fadeOutUp";
             container.style.animationDuration = "10s";
             container.style.animationFillMode = "forwards";

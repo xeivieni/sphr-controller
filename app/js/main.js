@@ -43,6 +43,7 @@ var readWifiList = function (response) {
     }
 };
 
+
 var readWifiName = function(response){
     if (response['ssid'] === robotConfig['ssid'] && response['connection'] === 'connected') {
         Window.updateMessage("success");
@@ -53,6 +54,7 @@ var readWifiName = function(response){
     }
 };
 
+
 var load = function () {
     waiter = Window.createLoader("check");
     instructions.appendChild(waiter);
@@ -62,12 +64,12 @@ var load = function () {
     LeapControl.controller.on('streamingStopped', onDeviceDisconnected);
 };
 
+
 var retry = function () {
     var waiter = document.getElementById("global");
     var buttonContainer = document.getElementById("container4");
     instructions.removeChild(waiter);
     instructions.removeChild(buttonContainer);
-
     load();
 };
 

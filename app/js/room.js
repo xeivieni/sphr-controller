@@ -9,6 +9,7 @@ var Room = (function () {
     var self = {};
     var Connector = require('./connector');
 
+
     self.init = function () {
         var container = document.getElementById('container');
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
@@ -66,6 +67,7 @@ var Room = (function () {
         self.render();
     };
 
+
     self.generateTexture = function () {
         var canvas = document.createElement('canvas');
         canvas.width = 256;
@@ -85,16 +87,19 @@ var Room = (function () {
         return canvas;
     };
 
+
     self.render = function () {
         camera.lookAt(sphere_object.position);
         renderer.render(scene, camera);
     };
+
 
     self.updateRoom = function (response) {
           if (response['contact'] == true){
               console.log('insert wall at : ', sphere_object.position.x, sphere_object.position.z)
           }
     };
+
 
     self.move_sphere = function (x_direction, z_direction) {
         // Look at the rotations, they actually depend on the orientation of the ball
@@ -110,7 +115,7 @@ var Room = (function () {
         else {
             sphere_object.rotation.x += x_direction;
             sphere_object.position.z += (20 * x_direction);
-            sphere_object.rotation.y += -z_direction;
+            sphere_object.rotation.z += -z_direction;
             sphere_object.position.x += (20 * z_direction);
             self.render();
         }
