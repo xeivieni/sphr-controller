@@ -104,7 +104,7 @@ var Room = (function () {
     self.move_sphere = function (x_direction, z_direction) {
         // Look at the rotations, they actually depend on the orientation of the ball
         var controls = { x_direction: x_direction, y_direction: z_direction};
-        //Connector.send(controls, self.updateRoom);
+        Connector.send(controls, self.updateRoom);
 
         if ((sphere_object.position.z + (20*x_direction) < -180) || (sphere_object.position.z + (20*x_direction) > 1020)){
             console.log('out of z bounds');

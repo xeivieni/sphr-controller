@@ -36,12 +36,11 @@ var Connector = (function () {
 
     self.send = function(coordinates, callback) {
         var options = { method: 'POST',
-            url: 'http://localhost:8000/api/controls/',
+            url: 'http://163.173.96.154:8000/api/controls/',
             headers:
             { 'content-type': 'application/x-www-form-urlencoded',
                 'postman-token': '7a1d9906-b700-e653-6444-6328de07f119',
-                'cache-control': 'no-cache',
-                authorization: 'Basic Y29udHJvbGVyOnJhc3BiZXJyeQ==' },
+                'cache-control': 'no-cache' },
             form: coordinates };
 
         request(options, function (error, response, body) {
