@@ -9,28 +9,37 @@ var Keys = (function () {
     self.onKeyDown = function (event) {
         switch (event.keyCode) {
             case 38: // up
-                Room.move_sphere(-1, 0);
+                Room.move_sphere(-1, 0, 0);
                 break;
             case 37: // left
-                Room.move_sphere(0, -1);
+                Room.move_sphere(0, -1, 0);
                 break;
             case 37 && 38: // up & left
-                Room.move_sphere(-1, -1);
+                Room.move_sphere(-1, -1, 0);
                 break;
             case 39 && 38: // up & right
-                Room.move_sphere(-1, 1);
+                Room.move_sphere(-1, 1, 0);
                 break;
             case 40: // down
-                Room.move_sphere(1, 0);
+                Room.move_sphere(1, 0, 0);
                 break;
             case 37 && 40: // down & left
-                Room.move_sphere(1, -1);
+                Room.move_sphere(1, -1, 0);
                 break;
             case 39 && 40: // down & right
-                Room.move_sphere(1, 1);
+                Room.move_sphere(1, 1, 0);
                 break;
             case 39: // right
-                Room.move_sphere(0, 1);
+                Room.move_sphere(0, 1, 0);
+                break;
+            case 76: // rotate right
+                Room.move_sphere(0, 0, 1);
+                break;
+            case 82: // rotate right
+                Room.move_sphere(0, 0, -1);
+                break;
+            case 32:
+                Room.move_sphere(0, 0, 0);
                 break;
         }
 

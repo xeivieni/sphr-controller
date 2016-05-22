@@ -101,22 +101,25 @@ var Room = (function () {
     };
 
 
-    self.move_sphere = function (x_direction, z_direction) {
+    self.move_sphere = function (x_direction, y_direction, z_direction) {
         // Look at the rotations, they actually depend on the orientation of the ball
-        var controls = { x_direction: x_direction, y_direction: z_direction};
-        Connector.send(controls, self.updateRoom);
+        var controls = { x_direction: x_direction, y_direction: y_direction, z_direction: z_direction, duration: 2};
+        var stop_controls = { x_direction: 0, y_direction: 0, z_direction: 0};
+        //Connector.send(stop_controls, self.updateRoom);
+        Connector.send(controls);
 
+        console.log("x", x_direction, "y", y_direction, "z", z_direction);
         if ((sphere_object.position.z + (20*x_direction) < -180) || (sphere_object.position.z + (20*x_direction) > 1020)){
             console.log('out of z bounds');
         }
-        else if ((sphere_object.position.x + (20*z_direction) < -680) || (sphere_object.position.x + (20*z_direction) > 660)){
+        else if ((sphere_object.position.x + (20*y_direction) < -680) || (sphere_object.position.x + (20*y_direction) > 660)){
             console.log('out of x bounds');
         }
         else {
             sphere_object.rotation.x += x_direction;
             sphere_object.position.z += (20 * x_direction);
-            sphere_object.rotation.z += -z_direction;
-            sphere_object.position.x += (20 * z_direction);
+            sphere_object.rotation.z += -y_direction;
+            sphere_object.position.x += (20 * y_direction);
             self.render();
         }
 

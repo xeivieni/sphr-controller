@@ -34,20 +34,32 @@ var Connector = (function () {
         callback(response);
     };
 
-    self.send = function(coordinates, callback) {
-        var options = { method: 'POST',
+    self.send = function (coordinates, callback) {
+        var options = {
+            method: 'POST',
             url: 'http://163.173.96.154:8000/api/controls/',
-            headers:
-            { 'content-type': 'application/x-www-form-urlencoded',
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded',
                 'postman-token': '7a1d9906-b700-e653-6444-6328de07f119',
-                'cache-control': 'no-cache' },
-            form: coordinates };
+                'cache-control': 'no-cache'
+            },
+            form: coordinates
+        };
 
         request(options, function (error, response, body) {
             if (error) throw new Error(error);
-            console.log(response);
-            callback(body);
+            console.log(response["statusCode"]);
+            self.readResponse(response);
         });
+    };
+
+    self.readResponse = function (response) {
+        if (response === undefined) {
+            alert("Robot is no longer connected");
+        }
+        if (response["statusCode"] !== 200) {
+            alert("An error occurred while sending the data, received code : " + response["statusCode"]);
+        }
     };
 
     return self;
