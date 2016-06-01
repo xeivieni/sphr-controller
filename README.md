@@ -12,11 +12,14 @@ git clone github.com/xeivieni/sphr-controler
 
 ## Installation
 
-TODO
-
+```
+npm install
+```
 ## Usage
 
-TODO: Write usage instructions
+```
+npm start
+```
 
 ## Contributing
 
@@ -27,5 +30,5 @@ TODO: Write usage instructions
 5. Submit a pull request :D
 
 ## Credits
-
-TODO: Write credits
+Copyright (c) 2016, Clément Mondion
+All rights reserved
